@@ -1,5 +1,5 @@
 const express = require("express")
-const {notes} = require('./data')
+const {notes} = require('./client/src/data')
 const app = express()
 const port = 4000
 const cors = require("cors")
@@ -16,10 +16,11 @@ app.get("/home", cors(), async (req, res) => {
 })
 
 app.post("/post_name", async (req, res) => {
-	const {title, body} = req.body.data
-	notes.push({title:title,
-	body:body})
-	console.log(notes)
+	// console.log(req.body.data)
+	// const {title, body} = req.body.data
+	// notes.push({title:title,
+	// body:body})
+	// console.log(notes)
 })
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`)
