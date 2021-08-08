@@ -16,7 +16,7 @@ app.get("/home", cors(), async (req, res) => {
 })
 
 app.post("/post_name", async (req, res) => {
-	// console.log(req.body.data)
+	console.log(req.body.data)
 	// const {title, body} = req.body.data
 	// notes.push({title:title,
 	// body:body})
