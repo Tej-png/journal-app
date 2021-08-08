@@ -1,0 +1,27 @@
+.main-container {
+    padding: 50px;
+}
+h1 {
+    font-weight:600;
+}
+
+.p {
+    font-size: 16px;
+    color: grey;
+}
+.btn {
+    border: none;
+}
+
+.card-footer:hover {
+    border-radius: 5%;
+}
+
+span {
+    color: gray;
+    font-weight: 200;
+}
+
+.notes-container {
+    padding-top: 60px;
+}

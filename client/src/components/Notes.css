@@ -1,0 +1,10 @@
+.card-header {
+    font-size: 35px;
+    font-weight:600;
+}
+
+p {
+    font-size: 14px;
+    color: grey;
+    padding-top: 10px;
+}
