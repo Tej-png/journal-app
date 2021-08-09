@@ -1,5 +1,6 @@
 .App {
   text-align: left;
+  padding: 50px;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -8,6 +9,30 @@
   pointer-events: none;
 }
 
+h1 {
+  font-weight:600;
+}
+
+.btn {
+  border: none;
+}
+
+.card-footer:hover {
+  border-radius: 5%;
+}
+
+span {
+  color: gray;
+  font-weight: 200;
+}
+
+.notes-container {
+  padding-top: 60px
+}
+
+.card {
+  margin-top: 25px;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

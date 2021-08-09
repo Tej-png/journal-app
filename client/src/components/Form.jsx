@@ -31,7 +31,7 @@ function Form(props) {
     <div>
       <form onSubmit={props.submit}>
         <div className="notes-form">
-          <label for="title" class="form-label">Title</label>
+          <label htmlFor="title" className="form-label">Title</label>
           <input
             name="title"
             className="form-control form-title"
@@ -40,7 +40,7 @@ function Form(props) {
             value={note.title}
             onChange={handleChange}
           ></input>
-          <label for="body" class="form-label">Content</label>
+          <label htmlFor="body" className="form-label">Content</label>
           <textarea
             name="body"
             className="form-control form-body"
@@ -48,7 +48,7 @@ function Form(props) {
             onChange={handleChange}
           ></textarea>
           <p>
-            Use the form above to create a post. Make sure file the required
+            Use the form above to create a post. Make sure fill the required
             title and body fields and the press submit.
           </p>
           <button
