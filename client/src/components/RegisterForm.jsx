@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "./LoginForm";
 
-function RegisterForm() {
+function RegisterForm(props) {
   return (
     <div>
         <LoginForm user="notRegisted"></LoginForm>

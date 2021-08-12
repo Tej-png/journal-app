@@ -21,7 +21,6 @@ function MainSection() {
 
   function addNote(newNote) {
     // const {title, body} = newNote
-    console.log(newNote);
     setData((prv) => {
       return [...prv, newNote];
     });

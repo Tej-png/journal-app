@@ -1,66 +1,66 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import UseForm from "./UseForm";
+import ValidateInfo from "./ValidateInfo";
 
 function LoginForm(props) {
-    const [click, setClick] = useState(true)
+  // console.log(submitForm);
+  const [handleChange, value, handleSubmit, errors, handleChange2, details] =
+    UseForm(submitForm, ValidateInfo);
+  const [isSubmited, setIsSubmitted] = useState(false);
 
-    function register(){
-        return (
-            <div className="mb-3">
-            <label htmlFor="confirm-password" className="form-label">
-              Confirn Password
-            </label>
-            <input
-              type="password"
-              name="confirm-password"
-              className="form-control"
-              aria-describedby="passwordHelpBlock"
-            ></input>
-          </div>
-        )
+  function submitForm() {
+    setIsSubmitted(true);
+    console.log("hello");
+  }
+
+  function userAcc(){
+    if (props.user === "notRegisted") {
+      return "/register"
+    } else {
+      return "/signin"
     }
-    function handleChange(event){
-        const {value, name} = event.target;
-        props.acc((prv) => {
-            return ({
-                ...prv,
-                [name]:value
-            })
-           
-        })
+  }
 
-    }
+  function register() {
+    return (
+      <div className="mb-3">
+        <label htmlFor="password2" className="form-label">
+          Confirn Password
+        </label>
+        <input
+          type="password"
+          name="password2"
+          className="form-control"
+          aria-describedby="passwordHelpBlock"
+          value={value.password2}
+          onChange={handleChange}
+        ></input>
+      </div>
+    );
+  }
 
-    // function userCheck(){
-    //     props.accData.email ===
-    // }
-
-    // function handleClick(){
-
-    // }
 
   return (
     <div>
       <main className="form-signin">
         <form>
-          {/* <img
-            className="mb-4"
-            src="/docs/5.1/assets/brand/bootstrap-logo.svg"
-            alt=""
-            width="72"
-            height="57"
-          ></img> */}
-          <h1 className="h3 mb-3 fw-normal">{props.user==="notRegisted" ? "Register" : "Sign in"}</h1>
+          <h1 className="h3 mb-3 fw-normal">
+            {props.user === "notRegisted" ? "Register" : "Sign in"}
+          </h1>
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
+            <label htmlFor="Email1" className="form-label">
               Email address
             </label>
             <input
               type="email"
               className="form-control"
-              id="exampleInputEmail1"
+              name="email"
               aria-describedby="emailHelp"
-              onChange={props.user === "notRegisted" && handleChange}
+              onChange={props.user === "notRegisted" ? handleChange : handleChange2}
+              value={props.user === "notRegisted" ? value.email : details.email}
             ></input>
+            {errors.email && <p style={{ color: "red" }}>* {errors.email}</p>}
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
             </div>
@@ -74,15 +74,24 @@ function LoginForm(props) {
               name="password"
               className="form-control"
               aria-describedby="passwordHelpBlock"
-              onChange={props.user === "notRegisted" && handleChange}
+              onChange={props.user === "notRegisted" ? handleChange : handleChange2}
+              value={
+                props.user === "notRegisted" ? value.password : details.password
+              }
             ></input>
-            <div id="passwordHelpBlock" className="form-text">
+            {errors.password && (
+              <p style={{ color: "red" }}>* {errors.password}</p>
+            )}
+            <div name="passwordHelpBlock" className="form-text">
               Your password must be 8-20 characters long, contain letters and
               numbers, and must not contain spaces, special characters, or
               emoji.
             </div>
           </div>
           {props.user === "notRegisted" && register()}
+          {errors.password2 && (
+            <p style={{ color: "red" }}>* {errors.password2}</p>
+          )}
           <div className="mb-3 form-check">
             <input
               type="checkbox"
@@ -93,9 +102,16 @@ function LoginForm(props) {
               Check me out
             </label>
           </div>
-          <button type="submit" className="btn btn-primary">
-            {props.user === "notRegisted" ? "Sign up" : "Login in"}
-          </button>
+          <Link to={isSubmited ? "/" : userAcc} onMouseDown={handleSubmit}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              value={userAcc() === "/signin" && "signin"}
+              
+            >
+              {props.user === "notRegisted" ? "Sign up" : "Login in"}
+            </button>
+          </Link>
         </form>
       </main>
     </div>
