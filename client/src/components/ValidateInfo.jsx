@@ -3,17 +3,6 @@ import React from "react";
 function ValidateInfo(values, details) {
   let errors = {};
 
-  // function regSignin(){
-  //   if (typeof details !== 'undefined'){
-  //     console.log("signin");
-  //   } else {
-  //     console.log("register")
-  //   }
-
-  // }
-
-  // regSignin()
-
   if (typeof details !== 'undefined') {
     if (details.email.length >= 0 || details.password.length >= 0) {
       if (details.email !== values.email) {
@@ -41,7 +30,6 @@ function ValidateInfo(values, details) {
   
   if (!values.password) {
     errors.password = "Password Required";
-    console.log(typeof details);
   } else if (values.password.length < 6) {
     errors.password = "Password needs to be 6 characters or more";
   }

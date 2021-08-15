@@ -4,7 +4,6 @@ import UseForm from "./UseForm";
 import ValidateInfo from "./ValidateInfo";
 
 function LoginForm(props) {
-  // console.log(submitForm);
   const [handleChange, value, handleSubmit, errors, handleChange2, details] =
     UseForm(submitForm, ValidateInfo);
   const [isSubmited, setIsSubmitted] = useState(false);

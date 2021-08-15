@@ -2,6 +2,7 @@ const express = require("express")
 const {notes} = require('./client/src/data')
 const app = express()
 const port = 4000
+const mongoose = require("mongoose")
 const cors = require("cors")
 
 app.use(express.urlencoded({ extended: true }))
@@ -13,6 +14,14 @@ app.get("/", cors(), async (req, res) => {
 })
 app.get("/home", cors(), async (req, res) => {
 	res.send("This is the data for the home page")
+})
+
+app.get("/signin", cors(), async (req, res) => {
+	console.log(req.body)
+})
+
+app.get("/register", cors(), async (req, res) => {
+	res.send("This is registration page")
 })
 
 app.post("/post_name", async (req, res) => {
