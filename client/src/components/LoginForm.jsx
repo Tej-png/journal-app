@@ -92,14 +92,8 @@ function LoginForm(props) {
             <p style={{ color: "red" }}>* {errors.password2}</p>
           )}
           <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="exampleCheck1"
-            ></input>
-            <label className="form-check-label" htmlFor="exampleCheck1">
-              Check me out
-            </label>
+            {props.user === "notRegisted" ? <Link to="/signin"><a>Login Instead</a></Link> :<p>Not registed? <Link to="/register"><a>Register</a></Link></p>}
+            
           </div>
           <Link to={isSubmited ? "/" : userAcc} onMouseDown={handleSubmit}>
             <button

@@ -8,9 +8,10 @@ import { set } from "mongoose";
 
 function MainSection() {
   const [data, setData] = useState([]);
+  const [editClick, setEditClick] = useState(false);
   const [edit, setEdit] = useState({
-    id:null,
-    title:"",
+    id: null,
+    title: "",
     body: "",
   });
 
@@ -31,23 +32,22 @@ function MainSection() {
     });
   }
 
-
-
   const updateNote = (NoteId, newValue) => {
     if (!newValue.body || /^\s*$/.test(newValue.body)) {
       console.log(newValue);
     }
-    setData(prev => prev.map((item,index) => (index === NoteId ? newValue : item)));
+    setData((prev) =>
+      prev.map((item, index) => (index === NoteId ? newValue : item))
+    );
   };
 
-
-  function submitUpdate(value){
-    updateNote(edit.id, value)
+  function submitUpdate(value) {
+    updateNote(edit.id, value);
     setEdit({
-      id:null,
-      title:'',
-      body:''
-    })
+      id: null,
+      title: "",
+      body: "",
+    });
   }
 
   function onDelete(id) {
@@ -58,55 +58,87 @@ function MainSection() {
     });
   }
 
-  function handleChange(e){
-    const {value, name} = e.target
-    setData(prv => {
+  function handleChange(e) {
+    const { value, name } = e.target;
+    setData((prv) => {
       return {
         ...prv,
-        [name]:value
-      }
-    })
-
+        [name]: value,
+      };
+    });
   }
-
-
 
   return (
     <div className="main-container">
+            <nav class="navbar navbar-expand-lg navbar-light ">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+              Digital journal <span>| Create A Note</span>
+            </a>
+            <div class="text" id="navbarText">
+              <span class="navbar-text">
+                <Link to="/signin">
+                  <button className="btn nav-btn">Signin</button>
+                </Link>
+                <Link to="/register">
+                  <button className="btn nav-btn">Register</button>
+                </Link>
+              </span>
+            </div>
+          </div>
+        </nav>
       <div className="form-container">
-        <h1>
+
+        {/* <h1>
           Digital journal <span>| Create A Note</span>
-        </h1>
-        <Link to="/signin">
-          <button>Signin</button>
-        </Link>
-        <Link to="/register">
-          <button>Register</button>
-        </Link>
+          <Link to="/signin">
+            <button>Signin</button>
+          </Link>
+          <Link to="/register">
+            <button>Register</button>
+          </Link>
+        </h1> */}
+
         <Form onAdd={addNote} submit={postName}></Form>
       </div>
       <div className="notes-container">
         <div className="row">
-          {data.map((noteItem, index) => {
-            console.log(noteItem)
-            return (
-              <div className="col-lg-4 col-sm-6">
-                <Notes
-                  editId={edit.id}
-                  update={submitUpdate}
-                  delete={onDelete}
-                  note={noteItem}
-                  key={index}
-                  edit={edit}
-                  onAdd={addNote}
-                  setEdit={setEdit}
-                  id={index}
-                  title={noteItem.title}
-                  body={noteItem.body}
-                ></Notes>
-              </div>
-            );
-          })}
+          {editClick ? (
+            <div className="update-container">
+              <Notes
+                editId={edit.id}
+                update={submitUpdate}
+                delete={onDelete}
+                edit={edit}
+                onAdd={addNote}
+                setEdit={setEdit}
+                editClick={setEditClick}
+              ></Notes>
+            </div>
+          ) : (
+            data.map((noteItem, index) => {
+              console.log(editClick);
+              console.log(noteItem);
+              return (
+                <div className="col-lg-4 col-sm-6">
+                  <Notes
+                    editId={edit.id}
+                    update={submitUpdate}
+                    delete={onDelete}
+                    note={noteItem}
+                    key={index}
+                    edit={edit}
+                    onAdd={addNote}
+                    setEdit={setEdit}
+                    id={index}
+                    editClick={setEditClick}
+                    title={noteItem.title}
+                    body={noteItem.body}
+                  ></Notes>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
