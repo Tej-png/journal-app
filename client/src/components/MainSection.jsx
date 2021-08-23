@@ -5,40 +5,55 @@ import axios from "axios";
 import Notes from "./Notes";
 import Form from "./Form";
 import { set } from "mongoose";
+import { useAuth } from "../context/AuthContext";
+import { signOut } from "./auth";
 
 function MainSection() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      _id: "",
+      title: "",
+      content: "",
+    },
+  ]);
   const [editClick, setEditClick] = useState(false);
   const [edit, setEdit] = useState({
     id: null,
     title: "",
     body: "",
   });
+  const { currentUser } = useAuth();
 
-  async function postName(e) {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:3000/", {
-        data,
-      });
-    } catch (error) {
-      console.error(error);
+  useEffect(() => {
+    if (currentUser) {
+      for (var i = 0; i; i++) {
+        axios.post("http://localhost:4000/register", {
+          email: currentUser.email,
+        });
+      }
     }
-  }
-
-  function addNote(newNote) {
-    setData((prv) => {
-      return [...prv, newNote];
-    });
-  }
+    if (currentUser) {
+      axios
+        .get("http://localhost:4000/notes")
+        .then((response) => {
+          // handle success
+          return response.data;
+        })
+        .then((jsonRes) => {
+          setData(jsonRes);
+        });
+    }
+  });
 
   const updateNote = (NoteId, newValue) => {
     if (!newValue.body || /^\s*$/.test(newValue.body)) {
-      console.log(newValue);
     }
-    setData((prev) =>
-      prev.map((item, index) => (index === NoteId ? newValue : item))
-    );
+    if (currentUser) {
+      axios.post("http://localhost:4000/update", {
+        id: NoteId,
+        note: newValue,
+      });
+    }
   };
 
   function submitUpdate(value) {
@@ -51,55 +66,52 @@ function MainSection() {
   }
 
   function onDelete(id) {
-    setData((prv) => {
-      return prv.filter((noteItem, index) => {
-        return index !== id;
-      });
-    });
-  }
-
-  function handleChange(e) {
-    const { value, name } = e.target;
-    setData((prv) => {
-      return {
-        ...prv,
-        [name]: value,
-      };
-    });
+    if (currentUser) {
+      axios.post("http://localhost:4000/delete", { id: id });
+    }
   }
 
   return (
     <div className="main-container">
-            <nav class="navbar navbar-expand-lg navbar-light ">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-              Digital journal <span>| Create A Note</span>
-            </a>
-            <div class="text" id="navbarText">
-              <span class="navbar-text">
-                <Link to="/signin">
-                  <button className="btn nav-btn">Signin</button>
-                </Link>
-                <Link to="/register">
-                  <button className="btn nav-btn">Register</button>
-                </Link>
-              </span>
-            </div>
+      <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            Digital journal <span>| Create A Note</span>
+          </a>
+          {currentUser && currentUser.displayName}
+          <div class="text" id="navbarText">
+            <span class="navbar-text">
+              {currentUser ? (
+                <button className="btn btn-outline-danger"
+                  onClick={() => {
+                    signOut();
+                    setData([
+                      {
+                        _id: "",
+                        title: "",
+                        content: "",
+                      },
+                    ]);
+                  }}
+                >
+                  sign out
+                </button>
+              ) : (
+                <div>
+                  <Link to="/signin">
+                    <button className="btn nav-btn">Signin</button>
+                  </Link>
+                  <Link to="/register">
+                    <button className="btn nav-btn">Register</button>
+                  </Link>
+                </div>
+              )}
+            </span>
           </div>
-        </nav>
+        </div>
+      </nav>
       <div className="form-container">
-
-        {/* <h1>
-          Digital journal <span>| Create A Note</span>
-          <Link to="/signin">
-            <button>Signin</button>
-          </Link>
-          <Link to="/register">
-            <button>Register</button>
-          </Link>
-        </h1> */}
-
-        <Form onAdd={addNote} submit={postName}></Form>
+        <Form></Form>
       </div>
       <div className="notes-container">
         <div className="row">
@@ -110,15 +122,13 @@ function MainSection() {
                 update={submitUpdate}
                 delete={onDelete}
                 edit={edit}
-                onAdd={addNote}
+                // onAdd={addNote}
                 setEdit={setEdit}
                 editClick={setEditClick}
               ></Notes>
             </div>
           ) : (
             data.map((noteItem, index) => {
-              console.log(editClick);
-              console.log(noteItem);
               return (
                 <div className="col-lg-4 col-sm-6">
                   <Notes
@@ -128,12 +138,12 @@ function MainSection() {
                     note={noteItem}
                     key={index}
                     edit={edit}
-                    onAdd={addNote}
+                    // onAdd={addNote}
                     setEdit={setEdit}
-                    id={index}
+                    id={noteItem._id}
                     editClick={setEditClick}
                     title={noteItem.title}
-                    body={noteItem.body}
+                    body={noteItem.content}
                   ></Notes>
                 </div>
               );

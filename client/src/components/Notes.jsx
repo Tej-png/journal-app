@@ -20,6 +20,7 @@ function Notes(props) {
     event.preventDefault();
   }
 
+  
   const handleChange = (e) => {
     const { value, name } = e.target;
     setInput((prv) => {
@@ -71,33 +72,6 @@ function Notes(props) {
               </button>
             </div>
           </div>
-          {/* <label htmlFor="title" className="form-label">
-            Title
-          </label>
-          <input
-            placeholder="Update your title"
-            onChange={handleChange}
-            name="title"
-            // ref={inputRef}
-            className="form-control title"
-          />
-          <label htmlFor="body" className="form-label">
-            Content
-          </label>
-          <textarea
-            placeholder="Update your Content"
-            onChange={handleChange}
-            name="body"
-            // ref={inputRef}
-            className="form-control body"
-          />
-          <button
-            onClick={handleEdit}
-            value={input}
-            className="btn btn-primary"
-          >
-            Update
-          </button> */}
         </>
       ) : (
         <div>

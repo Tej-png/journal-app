@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import LoginForm from "../LoginForm";
 import MainSection from "../MainSection";
-import Register from "./Register";
-import UseForm from "../UseForm";
+import Signup from '../auth';
 
 function Signin() {
   
   return (
     <div> 
-      <LoginForm></LoginForm>
+      <Signup></Signup>
+      {/* <LoginForm></LoginForm> */}
     </div>
   );
 }

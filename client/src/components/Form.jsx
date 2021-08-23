@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./Form.css"
-
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 function Form(props) {
   const [note, setNote] = useState({
     title: "",
     body: "",
   });
+  const { currentUser } = useAuth()
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -19,12 +21,22 @@ function Form(props) {
   }
 
   function handleClick(event){
-    props.onAdd(note)
+    event.preventDefault();
+    const newNote = {
+      title : note.title,
+      body : note. body
+    }
+    console.log(newNote);
+    if (currentUser){
+      axios.post('http://localhost:4000/create',{email:currentUser.email, title: newNote.title, body: newNote.body})
+    }
+    
+
     setNote({
       title: "",
       body: ""
     });
-    event.preventDefault();
+    
   }
 
   return (

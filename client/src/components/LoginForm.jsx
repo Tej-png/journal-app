@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import UseForm from "./UseForm";
 import ValidateInfo from "./ValidateInfo";
+import { useAuth } from "../context/AuthContext";
 
 function LoginForm(props) {
   const [handleChange, value, handleSubmit, errors, handleChange2, details] =
     UseForm(submitForm, ValidateInfo);
   const [isSubmited, setIsSubmitted] = useState(false);
+  const history = useHistory()
 
   function submitForm() {
     setIsSubmitted(true);
+    
+    history.push('/')
     console.log("hello");
   }
 
@@ -95,8 +99,9 @@ function LoginForm(props) {
             {props.user === "notRegisted" ? <Link to="/signin"><a>Login Instead</a></Link> :<p>Not registed? <Link to="/register"><a>Register</a></Link></p>}
             
           </div>
-          <Link to={isSubmited ? "/" : userAcc} onMouseDown={handleSubmit}>
+          {/* <Link to={isSubmited ? "/" : userAcc} > */}
             <button
+            onMouseDown={handleSubmit}
               type="submit"
               className="btn btn-primary"
               value={userAcc() === "/signin" && "signin"}
@@ -104,7 +109,7 @@ function LoginForm(props) {
             >
               {props.user === "notRegisted" ? "Sign up" : "Login in"}
             </button>
-          </Link>
+          {/* </Link> */}
         </form>
       </main>
     </div>

@@ -1,15 +1,13 @@
 import React, {useState} from 'react'
 import MainSection from '../MainSection';
-import RegisterForm from '../RegisterForm'
-import Signin from './Signin';
-
+import Signup from '../auth';
 
 function Register() {
-
   
     return (
       <div> 
-        <RegisterForm></RegisterForm>
+        <Signup></Signup>
+        {/* <RegisterForm></RegisterForm> */}
       </div>
     );
   }
